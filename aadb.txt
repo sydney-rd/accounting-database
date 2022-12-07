@@ -1,0 +1,4 @@
+James Doe,$450,12/3/22,Rent
+James Doe,$100,12/3/19,Car Payment
+Jane Doe,$5000,4/2/2004,House
+Jane Doe,$600,12//6/22,Dinner
