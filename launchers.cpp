@@ -42,3 +42,9 @@ void ExecuteMaxMaybe(const std::string& action) {
         max_sum();
     }
 }
+
+void ExecuteHelpMaybe(const std::string& action) {
+    if (action == "help") {
+        help();
+    }
+}

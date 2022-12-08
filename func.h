@@ -1,11 +1,11 @@
 #include <string>
+#ifndef FUNC
+#define FUNC
 
-// prints header file - useless
-void print_header();
-
-// prints all entries in file
 
 // print all names in file
+void help();
+
 void print_entry_names();
 
 //prints individual data depending on user inputted name
@@ -59,3 +59,7 @@ void ExecuteSumMaybe(const std::string& action1, std::string action2);
 void ExecuteDestroyMaybe(const std::string& action);
 
 void ExecuteMaxMaybe(const std::string& action);
+
+void ExecuteHelpMaybe(const std::string& action);
+
+#endif 

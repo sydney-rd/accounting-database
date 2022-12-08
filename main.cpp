@@ -12,6 +12,7 @@ int main(int argc, char** argv) {
     ExecuteSumMaybe(argv[1], argc == 3 ? argv[2] : "");
     ExecuteDestroyMaybe(argv[1]);
     ExecuteMaxMaybe(argv[1]);
+    ExecuteHelpMaybe(argv[1]);
     
     return 0;
 }
