@@ -7,34 +7,19 @@
 
 #define DB "db.txt"
 
-void erase_all_data() {
-    std::ofstream file;
-    file.open(DB, std::ofstream::out | std::ofstream::trunc);
-    file.close();
+void help() {
+    std::cout << "\nview - view all entries\nview \"First Last\" - view entry by name\nnames - views only names in file\nadd - add entry\nsum \"First Last\" - view sum total of name\nmax - finds largest amount\ndestroy - erases all data\n\n";
 }
 
 void print_entry_names() {
     std::ifstream file(DB);
     std::string line;
+    int i = 0;
     while(std::getline(file, line)) {
         int position = line.find(","); 
         std::string name = line.substr(0, position);
-        std::cout << name << std::endl;
+        std::cout << ++i << ". " << name << std::endl;
     }    
-}
-
-//prints individual data depending on user inputted name
-void print_individual_name_data(std::string vendor_name) {
-    std::ifstream file(DB);
-    std::string line;
-    while(std::getline(file, line)) {
-        int position = line.find(","); 
-        std::string name = line.substr(0, position);
-        size_t pos = line.find(vendor_name);
-        if(pos != std::string::npos) {
-            std::cout << line << std::endl;
-        }
-    }
 }
 
 void get_field(const char* field_name, std::string& field) {
@@ -113,17 +98,28 @@ void view_all_entries() {
     }
 }
 
-// prints each name and its sums in database - unfinished
-// Sydney David - total sum
-// Pavlos Sakoglou - total sum 
+void print_individual_name_data(std::string vendor_name) {
+    std::ifstream file(DB);
+    std::string line;
+    int i = 0;
+    while(std::getline(file, line)) {
+        int position = line.find(","); 
+        std::string name = line.substr(0, position);
+        size_t pos = line.find(vendor_name);
+        if(pos != std::string::npos) {
+            std::cout << ++i << ". " << get_name(line) << "  $" << get_amount(line) << "  " << get_date(line) << "  " << get_comment(line) << std::endl;
+        }
+    }
+}
+
 void print_names_and_sums(std::string vendor_name) {
-    std::ifstream file(DB);  // ok
-    std::string line; // ok
-    double sum = 0; // ok
-    while(std::getline(file, line)) { // ok
-        std::string name = get_name(line); // ok
-        if (name == vendor_name) { // ok
-            std::string amount = get_amount(line); // 
+    std::ifstream file(DB); 
+    std::string line; 
+    double sum = 0; 
+    while(std::getline(file, line)) {
+        std::string name = get_name(line);
+        if (name == vendor_name) { 
+            std::string amount = get_amount(line); 
             sum += std::stod(amount);
         }
     }
@@ -132,31 +128,17 @@ void print_names_and_sums(std::string vendor_name) {
     }
 }
 
-
-void max_sum() {
+void max_sum() { //UNFINISHED
     std::ifstream file(DB);
     std::string line;
     double sum = 0;
-    while(std::getline(file, line)) { // get line from file store str in line
-        std::string name = get_name(line); // calls get_name (finds first pos in str line) prints name
-     
-        
-        //if (name == sub) {
-        //    std::string amount = get_amount(line); // 
-        //   sum += std::stod(amount);
-
-        }
+    for(int row = 0; row < 2; ++row) {
+        int sumForRowTwo = 0;
     }
-        //    std::cout << sum << std::endl;
+}
 
-    
-void help() {
-    std::cout << "\nview - view all entries\nview \"First Last\" - view entry by name\nnames - views only names in file\nadd - add entry\nsum \"First Last\" - view sum total of name\nmax - finds largest amount\ndestroy - erases all data\n\n";
-    }
-    
-
-
-
-        
-        
-    
+void erase_all_data() {
+    std::ofstream file;
+    file.open(DB, std::ofstream::out | std::ofstream::trunc);
+    file.close();
+}

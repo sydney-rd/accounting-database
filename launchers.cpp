@@ -2,6 +2,18 @@
 #include <iostream>
 #include "func.h"
 
+void ExecuteHelpMaybe(const std::string& action) {
+    if (action == "help") {
+        help();
+    }
+}
+
+void ExecuteNamesMaybe(const std::string& action) {
+    if (action == "names") {
+        print_entry_names(); 
+    }
+}
+
 void ExecuteViewMaybe(const std::string& action1, std::string action2) {
     bool isView = action1 == "view";
     if (isView) {
@@ -19,21 +31,9 @@ void ExecuteAddMaybe(const std::string& action) {
     }
 }
 
-void ExecuteNamesMaybe(const std::string& action) {
-    if (action == "names") {
-        print_entry_names(); 
-    }
-}
-
 void ExecuteSumMaybe(const std::string& action1, std::string action2) {
     if (action1 == "sum" && !action2.empty()) {
         print_names_and_sums(action2);
-    }
-}
-
-void ExecuteDestroyMaybe(const std::string& action) {
-    if (action == "destroy") {
-        erase_all_data();
     }
 }
 
@@ -43,8 +43,8 @@ void ExecuteMaxMaybe(const std::string& action) {
     }
 }
 
-void ExecuteHelpMaybe(const std::string& action) {
-    if (action == "help") {
-        help();
+void ExecuteDestroyMaybe(const std::string& action) {
+    if (action == "destroy") {
+        erase_all_data();
     }
 }
