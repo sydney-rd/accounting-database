@@ -28,7 +28,9 @@ You can then choose between:
 
 # command definitions
 
-I recommend initially running the command ./db help - displays the optional commands the user can run and what they do
+I recommend initially running the command:
+
+./db help - displays the optional commands the user can run and what they do
 
 ./db view - views all entries in the file
 
