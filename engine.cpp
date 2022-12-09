@@ -54,7 +54,7 @@ void add_entry() {
 
 int string_find(const std::string& str, int nth_delimiter, char delimiter) {
     int ret = -1;
-    for(int i = 0; i < str.size(); i++) { // looping over the string
+    for(int i = 0; i < str.size(); i++) {
         if(str[i] == ',') { 
             nth_delimiter--;
         }
@@ -132,10 +132,16 @@ void max_sum() { //UNFINISHED
     std::ifstream file(DB);
     std::string line;
     double sum = 0;
-    for(int row = 0; row < 2; ++row) {
-        int sumForRowTwo = 0;
+            
+    while(std::getline(file, line)) {
+        std::string name = get_name(line);
+        
+
+        print_names_and_sums(name);
+        }
+        
     }
-}
+
 
 void erase_all_data() {
     std::ofstream file;
