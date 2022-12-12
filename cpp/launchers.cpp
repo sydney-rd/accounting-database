@@ -1,6 +1,6 @@
 #include <string>
 #include <iostream>
-#include "func.h"
+#include "../include/func.h"
 
 void ExecuteHelpMaybe(const std::string& action) {
     if (action == "help") {

@@ -4,46 +4,46 @@ This is a program that can help manage, organize and store your finanical data f
 
 From the terminal, run:
 
-g++ -std=c++20 main.cpp launchers.cpp engine.cpp -o db
+g++ -std=c++20 cpp/* -o adb
 
 # commands
 
 You can then choose between:
 
-./db help 
+./adb help 
 
-./db view
+./adb view
 
-./db view "First Last"
+./adb view "First Last"
 
-./db names
+./adb names
 
-./db add
+./adb add
 
-./db sum "First Last"
+./adb sum "First Last"
 
-./db max
+./adb max
 
-./db destroy
+./adb destroy
 
 # command definitions
 
 I recommend initially running the command:
 
-./db help - displays the optional commands the user can run and what they do
+./adb help - displays the optional commands the user can run and what they do
 
-./db view - views all vendor entries
+./adb view - views all vendor entries
 
-./db view "First Last" - view entry by vendor name
+./adb view "First Last" - view entry by vendor name
 
-./db names - views all vendor names in file
+./adb names - views all vendor names in file
 
-./db add - adds vendor entry
+./adb add - adds vendor entry
 
-./db sum "First Last" - view total sum of vendor name
+./adb sum "First Last" - view total sum of vendor name
 
-./db max - Finds largest sum in vendor list
+./adb max - Finds largest sum in vendor list
 
-./db destory - erases entire file (use with caution)
+./adb destroy - erases entire file (use with caution)
 
 

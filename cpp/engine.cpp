@@ -8,13 +8,13 @@
 #define DB "db.txt"
 
 void help() {
-    std::cout << "\n./db view - View all vendor entries" << std::endl;
-    std::cout << "./db view \"First Last\" - View entry by vendor name" << std::endl;
-    std::cout << "./db names - Views all vendor names in file" << std::endl;
-    std::cout << "./db add - Add vendor entry" << std::endl;
-    std::cout << "./db sum \"First Last\" - View total sum of vendor name" << std::endl;
-    std::cout << "./db max - Finds largest sum in vendor list" << std::endl;
-    std::cout << "./db destroy - Erases all entries and data\n" << std::endl;
+    std::cout << "\n./adb view - View all vendor entries" << std::endl;
+    std::cout << "./adb view \"First Last\" - View entry by vendor name" << std::endl;
+    std::cout << "./adb names - Views all vendor names in file" << std::endl;
+    std::cout << "./adb add - Add vendor entry" << std::endl;
+    std::cout << "./adb sum \"First Last\" - View total sum of vendor name" << std::endl;
+    std::cout << "./adb max - Finds largest sum in vendor list" << std::endl;
+    std::cout << "./adb destroy - Erases all entries and data\n" << std::endl;
 }
 
 void print_entry_names() {
