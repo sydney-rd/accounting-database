@@ -4,57 +4,10 @@
 #include <cstring>
 #include <vector>
 #include <sstream>
+#include <unordered_set>
+#include <unordered_map>
 
 #define DB "db.txt"
-
-void help() {
-    std::cout << "\n./adb view - View all vendor entries" << std::endl;
-    std::cout << "./adb view \"First Last\" - View entry by vendor name" << std::endl;
-    std::cout << "./adb names - Views all vendor names in file" << std::endl;
-    std::cout << "./adb add - Add vendor entry" << std::endl;
-    std::cout << "./adb sum \"First Last\" - View total sum of vendor name" << std::endl;
-    std::cout << "./adb max - Finds largest sum in vendor list" << std::endl;
-    std::cout << "./adb destroy - Erases all entries and data\n" << std::endl;
-}
-
-void print_entry_names() {
-    std::ifstream file(DB);
-    std::string line;
-    int i = 0;
-    while (std::getline(file, line)) {
-        int position = line.find(","); 
-        std::string name = line.substr(0, position);
-        std::cout << ++i << ". " << name << std::endl;
-    }    
-}
-
-static void init_field(const char* field_name, std::string& field) {
-    std::cout << "Enter " << field_name << ": ";
-    std::getline(std::cin, field);   
-}
-
-static std::string entry_formatter(const std::vector<std::string>& fields, const std::string& delimiter) {
-    std::string ret = "";
-    for (int i = 0; i < fields.size(); i++) {
-        ret += fields[i];
-        if (i != 3) {
-            ret += delimiter;
-        }
-    }
-    return ret;
-}
-
-void add_entry() {
-    std::ofstream file;
-    file.open(DB, std::ios::app);
-    std::string name, comment, date, amount;
-    init_field("name", name);
-    init_field("amount", amount);
-    init_field("date", date);
-    init_field("comments", comment);
-    file << entry_formatter({name, amount, date, comment}, ",") << std::endl;
-    file.close();
-}
 
 static int string_find(const std::string& str, int nth_delimiter, char delimiter) {
     int ret = -1;
@@ -90,6 +43,57 @@ static std::string get_date(std::string line) {
 static std::string get_comment(std::string line) {
     int pos1 = string_find(line, 3, ',');
     return line.substr(pos1 + 1, line.size() - pos1);
+}
+
+void help() {
+    std::cout << "\n./adb view - View all vendor entries" << std::endl;
+    std::cout << "./adb view \"First Last\" - View entry by vendor name" << std::endl;
+    std::cout << "./adb names - Views all vendor names in file" << std::endl;
+    std::cout << "./adb add - Add vendor entry" << std::endl;
+    std::cout << "./adb sum \"First Last\" - View total sum of vendor name" << std::endl;
+    std::cout << "./adb max - Finds largest sum in vendor list" << std::endl;
+    std::cout << "./adb destroy - Erases all entries and data\n" << std::endl;
+}
+
+void print_entry_names() {
+    std::ifstream file(DB);
+    std::string line;
+    std::unordered_set<std::string> unique_names;
+    while (std::getline(file, line)) {
+        unique_names.insert(get_name(line));
+    }
+    int i = 1;
+    for (std::string value : unique_names) {
+        std::cout << i++ << ". " << value << std::endl;
+    }
+}
+
+static void init_field(const char* field_name, std::string& field) {
+    std::cout << "Enter " << field_name << ": ";
+    std::getline(std::cin, field);   
+}
+
+static std::string entry_formatter(const std::vector<std::string>& fields, const std::string& delimiter) {
+    std::string ret = "";
+    for (int i = 0; i < fields.size(); i++) {
+        ret += fields[i];
+        if (i != 3) {
+            ret += delimiter;
+        }
+    }
+    return ret;
+}
+
+void add_entry() {
+    std::ofstream file;
+    file.open(DB, std::ios::app);
+    std::string name, comment, date, amount;
+    init_field("name", name);
+    init_field("amount", amount);
+    init_field("date", date);
+    init_field("comments", comment);
+    file << entry_formatter({name, amount, date, comment}, ",") << std::endl;
+    file.close();
 }
 
 static void print_line(std::string line, int i) {
@@ -141,12 +145,16 @@ void max_sum() {
     std::string line;
     double maxsum = 0;
     std::string maxname;
+    std::unordered_set<std::string> discovered;
     while (std::getline(file, line)) {
         std::string current_name = get_name(line);
-        double current_sum = get_sum(current_name);
-        if (current_sum > maxsum) {
-            maxsum = current_sum; 
-            maxname = current_name; 
+        if (discovered.find(current_name) == discovered.end()) {
+            discovered.insert(current_name);
+            double current_sum = get_sum(current_name);
+            if (current_sum > maxsum) {
+                maxsum = current_sum; 
+                maxname = current_name; 
+            }
         }
     }
     std::cout << maxname << ": $" << maxsum << std::endl; 
