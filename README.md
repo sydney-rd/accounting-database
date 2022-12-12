@@ -28,7 +28,7 @@ You can then choose between:
 
 # command definitions
 
-I recommend initially running the command:
+I recommend initially running the command, help:
 
 ./adb help - displays the optional commands the user can run and what they do
 
