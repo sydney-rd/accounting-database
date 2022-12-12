@@ -32,17 +32,17 @@ I recommend initially running the command:
 
 ./db help - displays the optional commands the user can run and what they do
 
-./db view - views all entries in the file
+./db view - views all vendor entries
 
-./db view "First Last" - views all entries of a particular name
+./db view "First Last" - view entry by vendor name
 
-./db names - views only the names in the file
+./db names - views all vendor names in file
 
-./db add - adds an entry
+./db add - adds vendor entry
 
-./db sum "First Last" - shows total sum of a given name
+./db sum "First Last" - view total sum of vendor name
 
-./db max - gives you the vendor with the largest sum
+./db max - Finds largest sum in vendor list
 
 ./db destory - erases entire file (use with caution)
 

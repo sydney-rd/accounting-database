@@ -8,26 +8,32 @@
 #define DB "db.txt"
 
 void help() {
-    std::cout << "\nview - view all entries\nview \"First Last\" - view entry by name\nnames - views only names in file\nadd - add entry\nsum \"First Last\" - view sum total of name\nmax - finds largest amount\ndestroy - erases all data\n\n";
+    std::cout << "\n./db view - View all vendor entries" << std::endl;
+    std::cout << "./db view \"First Last\" - View entry by vendor name" << std::endl;
+    std::cout << "./db names - Views all vendor names in file" << std::endl;
+    std::cout << "./db add - Add vendor entry" << std::endl;
+    std::cout << "./db sum \"First Last\" - View total sum of vendor name" << std::endl;
+    std::cout << "./db max - Finds largest sum in vendor list" << std::endl;
+    std::cout << "./db destroy - Erases all entries and data\n" << std::endl;
 }
 
 void print_entry_names() {
     std::ifstream file(DB);
     std::string line;
     int i = 0;
-    while(std::getline(file, line)) {
+    while (std::getline(file, line)) {
         int position = line.find(","); 
         std::string name = line.substr(0, position);
         std::cout << ++i << ". " << name << std::endl;
     }    
 }
 
-void get_field(const char* field_name, std::string& field) {
+static void init_field(const char* field_name, std::string& field) {
     std::cout << "Enter " << field_name << ": ";
     std::getline(std::cin, field);   
 }
 
-std::string entry_formatter(const std::vector<std::string>& fields, const std::string& delimiter) {
+static std::string entry_formatter(const std::vector<std::string>& fields, const std::string& delimiter) {
     std::string ret = "";
     for (int i = 0; i < fields.size(); i++) {
         ret += fields[i];
@@ -42,20 +48,18 @@ void add_entry() {
     std::ofstream file;
     file.open(DB, std::ios::app);
     std::string name, comment, date, amount;
-
-    get_field("name", name);
-    get_field("amount", amount);
-    get_field("date", date);
-    get_field("comments", comment);
-
+    init_field("name", name);
+    init_field("amount", amount);
+    init_field("date", date);
+    init_field("comments", comment);
     file << entry_formatter({name, amount, date, comment}, ",") << std::endl;
     file.close();
 }
 
-int string_find(const std::string& str, int nth_delimiter, char delimiter) {
+static int string_find(const std::string& str, int nth_delimiter, char delimiter) {
     int ret = -1;
-    for(int i = 0; i < str.size(); i++) {
-        if(str[i] == ',') { 
+    for (int i = 0; i < str.size(); i++) {
+        if (str[i] == ',') { 
             nth_delimiter--;
         }
         if (nth_delimiter == 0) {
@@ -64,37 +68,40 @@ int string_find(const std::string& str, int nth_delimiter, char delimiter) {
         }
     }
     return ret;
-
 }
 
-std::string get_name(std::string line) {
+static std::string get_name(std::string line) {
     int pos1 = string_find(line, 1, ',');
     return line.substr(0, pos1);
 }
 
-std::string get_amount(std::string line) {
+static std::string get_amount(std::string line) {
     int pos1 = string_find(line, 1, ',');
     int pos2 = string_find(line, 2, ',');
     return std::string(line.c_str() + pos1 + 2, line.c_str() + pos2);
 }
 
-std::string get_date(std::string line) {
+static std::string get_date(std::string line) {
     int pos1 = string_find(line, 2, ',');
     int pos2 = string_find(line, 3, ',');
     return std::string(line.c_str() + pos1 + 1, line.c_str() + pos2);
 }
 
-std::string get_comment(std::string line) {
+static std::string get_comment(std::string line) {
     int pos1 = string_find(line, 3, ',');
     return line.substr(pos1 + 1, line.size() - pos1);
+}
+
+static void print_line(std::string line, int i) {
+    std::cout << ++i << ". " << get_name(line) << "  $" << get_amount(line) << "  " << get_date(line) << "  " << get_comment(line) << std::endl;
 }
 
 void view_all_entries() {
     std::string line;
     int i = 0;
     std::ifstream file(DB);
-    while(std::getline(file, line)) {
-        std::cout << ++i << ". " << get_name(line) << "  $" << get_amount(line) << "  " << get_date(line) << "  " << get_comment(line) << std::endl;
+    while (std::getline(file, line)) {
+        print_line(line, i);
     }
 }
 
@@ -102,46 +109,48 @@ void print_individual_name_data(std::string vendor_name) {
     std::ifstream file(DB);
     std::string line;
     int i = 0;
-    while(std::getline(file, line)) {
-        int position = line.find(","); 
-        std::string name = line.substr(0, position);
-        size_t pos = line.find(vendor_name);
-        if(pos != std::string::npos) {
-            std::cout << ++i << ". " << get_name(line) << "  $" << get_amount(line) << "  " << get_date(line) << "  " << get_comment(line) << std::endl;
+    while (std::getline(file, line)) {
+        if (get_name(line) == vendor_name) {
+            print_line(line, i);
         }
     }
 }
 
-void print_names_and_sums(std::string vendor_name) {
+static double get_sum(std::string vendor_name) {
     std::ifstream file(DB); 
     std::string line; 
     double sum = 0; 
-    while(std::getline(file, line)) {
-        std::string name = get_name(line);
-        if (name == vendor_name) { 
+    while (std::getline(file, line)) {
+        if (get_name(line) == vendor_name) { 
             std::string amount = get_amount(line); 
             sum += std::stod(amount);
         }
     }
+    return sum;
+}
+
+void print_names_and_sums(std::string vendor_name) {
+    double sum = get_sum(vendor_name);
     if (sum > 0) {
         std::cout << vendor_name << ": $" << sum << std::endl;
     }
 }
 
-void max_sum() { //UNFINISHED
+void max_sum() { 
     std::ifstream file(DB);
     std::string line;
-    double sum = 0;
-            
-    while(std::getline(file, line)) {
-        std::string name = get_name(line);
-        
-
-        print_names_and_sums(name);
+    double maxsum = 0;
+    std::string maxname;
+    while (std::getline(file, line)) {
+        std::string current_name = get_name(line);
+        double current_sum = get_sum(current_name);
+        if (current_sum > maxsum) {
+            maxsum = current_sum; 
+            maxname = current_name; 
         }
-        
     }
-
+    std::cout << maxname << ": $" << maxsum << std::endl; 
+}
 
 void erase_all_data() {
     std::ofstream file;
