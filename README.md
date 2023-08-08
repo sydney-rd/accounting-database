@@ -4,7 +4,7 @@ This is a program that can help manage, organize and store your finanical data f
 
 From the terminal, run:
 
-g++ -std=c++20 cpp/* -o adb
+g++ -std=c++11 *.cpp -o adb
 
 # commands
 
