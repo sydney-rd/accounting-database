@@ -1,6 +1,6 @@
-# accounting-database
+# Accounting Database
 
-This is a program that can help manage, organize and store your finanical data for your company
+This is a program that can help manage, organize, and store your financial data for your company. 
 
 From the terminal, run:
 
